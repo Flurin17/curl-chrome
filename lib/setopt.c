@@ -855,6 +855,12 @@ static CURLcode setopt_long_bool(struct Curl_easy *data, CURLoption option,
   case CURLOPT_TLS_GREASE:
     s->tls_grease = enabled;
     break;
+  case CURLOPT_TLS_GREASE_SIGALGS:
+    s->tls_grease_sigalgs = enabled;
+    break;
+  case CURLOPT_TLS_TRUST_ANCHORS_SHUFFLE:
+    s->tls_trust_anchors_no_shuffle = !enabled;
+    break;
   case CURLOPT_TLS_KEY_USAGE_NO_CHECK:
     s->tls_key_usage_no_check = enabled;
     break;

@@ -2458,6 +2458,14 @@ typedef enum {
    * randomized distribution; non-negative values select a fixed number. */
   CURLOPT(CURLOPT_QUIC_INITIAL_PACKET_NUMBER, CURLOPTTYPE_LONG, 1041),
 
+  /* curl-impersonate: Send a GREASE value in the signature_algorithms
+   * extension, as Chrome does since version 152. Not applied to QUIC. */
+  CURLOPT(CURLOPT_TLS_GREASE_SIGALGS, CURLOPTTYPE_LONG, 1042),
+
+  /* curl-impersonate: Shuffle the CURLOPT_TLS_TRUST_ANCHORS wire order on
+   * each connection (default). 0 sends the IDs in the configured order. */
+  CURLOPT(CURLOPT_TLS_TRUST_ANCHORS_SHUFFLE, CURLOPTTYPE_LONG, 1043),
+
   CURLOPT_LASTENTRY /* the last unused */
 } CURLoption;
 

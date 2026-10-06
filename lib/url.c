@@ -420,6 +420,8 @@ void Curl_init_userdefined(struct Curl_easy *data)
     CURL_HTTP3_SSL_PERMUTE_FALLBACK;
   set->quic_initial_packet_number = 0;
   set->tls_grease = FALSE;
+  set->tls_grease_sigalgs = FALSE;
+  set->tls_trust_anchors_no_shuffle = FALSE;
   set->tls_use_new_alps_codepoint = FALSE;
   set->expect_100_timeout = 1000L; /* Wait for a second by default. */
   set->sep_headers = TRUE; /* separated header lists by default */

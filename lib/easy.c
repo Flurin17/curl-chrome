@@ -446,6 +446,10 @@ static CURLcode _do_impersonate(struct Curl_easy *data,
                            opts->tls_trust_anchors);
     if(ret)
       return ret;
+    ret = curl_easy_setopt(data, CURLOPT_TLS_TRUST_ANCHORS_SHUFFLE,
+                           opts->tls_trust_anchors_no_shuffle ? 0L : 1L);
+    if(ret)
+      return ret;
   }
 
   if(opts->tls_permute_extensions) {
@@ -582,6 +586,11 @@ static CURLcode _do_impersonate(struct Curl_easy *data,
   }
 
   ret = curl_easy_setopt(data, CURLOPT_TLS_GREASE, opts->tls_grease);
+  if(ret)
+    return ret;
+
+  ret = curl_easy_setopt(data, CURLOPT_TLS_GREASE_SIGALGS,
+                         opts->tls_grease_sigalgs);
   if(ret)
     return ret;
 

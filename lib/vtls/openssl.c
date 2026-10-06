@@ -4057,7 +4057,7 @@ static CURLcode ossl_init_method(struct Curl_cfilter *cf,
 
 #ifdef OPENSSL_IS_BORINGSSL
 static CURLcode set_trust_anchors(struct Curl_easy *data, SSL_CTX *ctx,
-                                  const char *anchors)
+                                  const char *anchors, bool shuffle)
 {
   CBB ids;
   CURLcode result = CURLE_OK;
@@ -4126,8 +4126,9 @@ static CURLcode set_trust_anchors(struct Curl_easy *data, SSL_CTX *ctx,
     }
 
     /* The IDs form a set. Randomize only the temporary wire order, leaving
-     * the configured value stable for connection and session cache keys. */
-    for(i = id_count; i > 1; i--) {
+     * the configured value stable for connection and session cache keys.
+     * Chrome 154 sends a fixed order, so shuffling can be turned off. */
+    for(i = shuffle ? id_count : 0; i > 1; i--) {
       size_t random;
       size_t threshold = (size_t)(-i) % i;
       size_t selected;
@@ -4474,9 +4475,14 @@ CURLcode Curl_ossl_ctx_init(struct ossl_ctx *octx,
   else if(data->set.tls_grease)
     SSL_CTX_set_grease_enabled(octx->ssl_ctx, 1);
 
+  /* curl-impersonate: GREASE signature_algorithms, Chrome 152+. */
+  if(data->set.tls_grease_sigalgs && peer->transport != TRNSPRT_QUIC)
+    SSL_CTX_set_grease_sigalgs_enabled(octx->ssl_ctx, 1);
+
   if(conn_config->trust_anchors) {
+    bool shuffle = !data->set.tls_trust_anchors_no_shuffle;
     CURLcode result = set_trust_anchors(data, octx->ssl_ctx,
-                                        conn_config->trust_anchors);
+                                        conn_config->trust_anchors, shuffle);
     if(result)
       return result;
   }

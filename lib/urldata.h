@@ -1161,6 +1161,8 @@ struct UserDefined {
   BIT(ssl_permute_extensions); /* TLS Permute extensions */
   CURLhttp3sslpermute http3_ssl_permute_extensions;
   BIT(tls_grease);  /* TLS grease? */
+  BIT(tls_grease_sigalgs);  /* TLS grease in signature_algorithms? */
+  BIT(tls_trust_anchors_no_shuffle); /* keep trust anchor order */
   BIT(tls_key_usage_no_check);  /* TLS key_usage_check? */
   BIT(tls_signed_cert_timestamps);  /* TLS signed cert timestamps? */
   BIT(tls_status_request);  /* TLS status request */

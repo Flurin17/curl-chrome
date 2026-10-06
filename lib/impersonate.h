@@ -57,6 +57,7 @@ struct impersonate_opts {
   bool tls_use_new_alps_codepoint;
   bool tls_signed_cert_timestamps;
   const char *tls_trust_anchors;
+  bool tls_trust_anchors_no_shuffle;
   const char *ech;
   const char *tls_extension_order;
   const char *http3_tls_extension_order;
@@ -64,6 +65,7 @@ struct impersonate_opts {
   int tls_record_size_limit;
   int tls_key_shares_limit;  // for firefox key_shares extension
   bool tls_grease;
+  bool tls_grease_sigalgs;
   int http2_stream_weight;
   int http2_stream_exclusive;
   bool http2_no_priority;  // disable http2 priority in header frame
